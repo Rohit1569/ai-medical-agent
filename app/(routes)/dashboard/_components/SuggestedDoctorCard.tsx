@@ -4,6 +4,7 @@ import Image from "next/image";
 
 type Props = {
   doctorAgent: doctorAgent;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setSelectedDoctor:any;
   seletedDoctor:doctorAgent
 };

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 'use client'
 import React, { useState } from "react";
 import {
@@ -14,7 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { ArrowRight, Loader2 } from "lucide-react";
 import axios from "axios";
-import DoctorAgentCard, { doctorAgent } from "./DoctorAgentCard";
+import { doctorAgent } from "./DoctorAgentCard";
 import SuggestedDoctorsCard from "./SuggestedDoctorCard";
 import { useRouter } from "next/navigation";
 function AddNewSessionDialog(){
@@ -72,7 +73,7 @@ function AddNewSessionDialog(){
                   {/* Suggested Doctors */}
                   {suggestedDoctors.map((doctor,index)=>(
                     <SuggestedDoctorsCard doctorAgent={doctor} key={index } setSelectedDoctor={()=>setSelectedDoctor(doctor)}
-                    //@ts-ignore
+                    //@ts-expect-error
                     seletedDoctor={seletedDoctor}/>
                   ))}
                 </div>

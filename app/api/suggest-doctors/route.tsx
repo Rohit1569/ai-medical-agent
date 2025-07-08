@@ -17,7 +17,8 @@ export async function POST(req: NextRequest) {
           });
            
           const rawResp=completion.choices[0].message
-            //@ts-ignore
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-expect-error
           const Resp=rawResp.content.trim().replace('```json', '').replace('```', ''); 
           const JSONResp=JSON.parse(Resp);
           return NextResponse.json(JSONResp)

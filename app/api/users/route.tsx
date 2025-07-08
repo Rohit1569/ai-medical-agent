@@ -6,18 +6,21 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req:NextRequest) {
     const user=await currentUser();
-
+        console.log(req);
+        
     try{
      const users=await db.select().from(usersTable)
      .where(eq(usersTable.email, user?.primaryEmailAddress?.emailAddress || ""))
 
      if(!users?.length){
       const res=await db.insert(usersTable).values({
-        //@ts-ignore
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-expect-error
         name:user?.fullName ,
         email:user?.primaryEmailAddress?.emailAddress,
         credits:10
-         //@ts-ignore
+         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+         //@ts-expect-error
       }).returning({usersTable});
       return NextResponse.json(res[0]?.userTable);
      }

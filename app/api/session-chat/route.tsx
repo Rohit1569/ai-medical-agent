@@ -16,7 +16,8 @@ import { eq } from "drizzle-orm";
         notes:notes,
         seletedDoctor:seletedDoctor,
         createdOn:(new Date()).toISOString(),
-    //@ts-ignore  
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-expect-error  
     }).returning({SessionChatTable})
     return NextResponse.json(result[0]?.SessionChatTable);
     }catch(e){
@@ -28,7 +29,8 @@ import { eq } from "drizzle-orm";
     const {searchParams}=new URL(req.url);
     const sessionId=searchParams.get('sessionId');
     const result=await db.select().from(SessionChatTable)
-    //@ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-expect-error
     .where(eq(SessionChatTable.sessionId, sessionId))
     return NextResponse.json(JSON.parse(JSON.stringify(result[0])));
   }

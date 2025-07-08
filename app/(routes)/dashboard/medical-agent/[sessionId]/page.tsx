@@ -28,6 +28,7 @@ function MedicalVOiceAgent() {
   const { sessionId } = useParams();
   const [sessionDetails, setSessionDetails] = useState<SessionDetails | null>(null);
   const [callStarted, setCallStarted] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [vapiInstance, setVapiInstance] = useState<any>();
   const [currentRole, setCurrentRole] = useState<string | null>();
   const [messages, setMessages] = useState<message[]>([]);
@@ -88,7 +89,8 @@ function MedicalVOiceAgent() {
       }
     };
 
-    //@ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-expect-error
     vapi.start(vapiAgentConfig);
 
     vapi.on('call-start', () => {
@@ -144,7 +146,7 @@ function MedicalVOiceAgent() {
     setCallStarted(false);
     setVapiInstance(null);
 
-    const result = await GenerateReport();
+    await GenerateReport();
     setLoading(false);
   };
 
