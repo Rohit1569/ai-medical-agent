@@ -6,13 +6,13 @@ type Props = {
   doctorAgent: doctorAgent;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setSelectedDoctor:any;
-  seletedDoctor:doctorAgent
+  selectedDoctor:doctorAgent
 };
 
-function SuggestedDoctorsCard({ doctorAgent, setSelectedDoctor,seletedDoctor }: Props) {
+function SuggestedDoctorsCard({ doctorAgent, setSelectedDoctor,selectedDoctor }: Props) {
   return (
     <div
-      className={`flex flex-col items-center justify-between gap-2 p-4 border rounded-2xl shadow-sm hover:shadow-md border-blue-500 cursor-pointer transition-shadow ${seletedDoctor?.id==doctorAgent?.id &&'border-blue-500'}`}
+      className={`flex flex-col items-center justify-between gap-2 p-4 border rounded-2xl shadow-sm hover:shadow-md border-blue-500 cursor-pointer transition-shadow ${selectedDoctor?.id==doctorAgent?.id &&'border-blue-500'}`}
       onClick={() => setSelectedDoctor(doctorAgent)} // ✅ Fixed here
     >
       <Image

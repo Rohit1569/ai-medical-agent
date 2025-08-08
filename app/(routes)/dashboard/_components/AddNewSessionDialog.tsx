@@ -23,7 +23,7 @@ function AddNewSessionDialog(){
     const [loading,setLoading]=useState(false) ;
     const [suggestedDoctors, setSuggestedDoctors] = useState<doctorAgent[]>([]);
      const router = useRouter();
-    const [seletedDoctor,setSelectedDoctor]=useState<doctorAgent>();
+    const [selectedDoctor,setSelectedDoctor]=useState<doctorAgent>();
      
     const OnClickNext =async()=>{
       setLoading(true)
@@ -39,7 +39,7 @@ function AddNewSessionDialog(){
        setLoading(true);
       const result=await axios.post('/api/session-chat', {
         notes: note,
-        seletedDoctor: seletedDoctor
+        selectedDoctor: selectedDoctor
       });
       if(result.data?.sessionId){
         router.push(`/dashboard/medical-agent/${result.data.sessionId}`);
@@ -74,7 +74,7 @@ function AddNewSessionDialog(){
                   {suggestedDoctors.map((doctor,index)=>(
                     <SuggestedDoctorsCard doctorAgent={doctor} key={index } setSelectedDoctor={()=>setSelectedDoctor(doctor)}
                     //@ts-expect-error
-                    seletedDoctor={seletedDoctor}/>
+                    selectedDoctor={selectedDoctor}/>
                   ))}
                 </div>
               </div>

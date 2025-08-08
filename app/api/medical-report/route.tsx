@@ -66,6 +66,7 @@ export async function POST(req: NextRequest) {
           const JSONResp=JSON.parse(Resp);
           await db.update (SessionChatTable).set({
                 report: JSONResp,
+                conversation: message,
           }).where(eq(SessionChatTable.sessionId, sessionId))
          return NextResponse.json(JSONResp);
        
