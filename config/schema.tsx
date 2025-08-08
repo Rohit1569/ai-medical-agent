@@ -12,7 +12,7 @@ export const SessionChatTable = pgTable("sessionChatTable", {
   sessionId:varchar().notNull(),
   notes: varchar(),
   conversation: json(),
-  seletedDoctor:json(),
+  selectedDoctor:json(),
   report: json(),
   createdBy:varchar().references(()=>usersTable.email),
   createdOn:varchar({ length: 255 }).notNull(),
