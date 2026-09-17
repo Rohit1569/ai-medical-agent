@@ -52,9 +52,12 @@ function MedicalVoiceAgent() {
     fetchSessionDetails();
   }, [sessionId]);
 
-  const startCall = () => {
+  const startCall = async () => {
     const apiKey = process.env.NEXT_PUBLIC_VAPI_API_KEY ?? '';
-    if (!apiKey) throw new Error("NEXT_PUBLIC_VAPI_API_KEY is not defined");
+    if (!apiKey) {
+      toast.error('Vapi API key is not configured.');
+      return;
+    }
 
     const vapi = new Vapi(apiKey);
     setVapiInstance(vapi);
@@ -84,11 +87,13 @@ function MedicalVoiceAgent() {
       },
     };
 
-    // @ts-expect-error vapi types missing
-    vapi.start(config);
-
     vapi.on('call-start', () => setCallStarted(true));
     vapi.on('call-end', () => setCallStarted(false));
+    vapi.on('error', (error) => {
+      console.error('Vapi call error', error);
+      setCallStarted(false);
+      toast.error('The voice call could not stay connected.');
+    });
 
     vapi.on('message', (message) => {
       if (message.type === 'transcript') {
@@ -106,6 +111,16 @@ function MedicalVoiceAgent() {
 
     vapi.on('speech-start', () => setCurrentRole('assistant'));
     vapi.on('speech-end', () => setCurrentRole('user'));
+
+    try {
+      // @ts-expect-error vapi types do not expose the inline assistant config.
+      await vapi.start(config);
+    } catch (error) {
+      console.error('Failed to start Vapi call', error);
+      setCallStarted(false);
+      setVapiInstance(null);
+      toast.error('Unable to start the voice call.');
+    }
   };
 
   const endCall = async () => {
