@@ -26,13 +26,20 @@ function AddNewSessionDialog(){
     const [selectedDoctor,setSelectedDoctor]=useState<doctorAgent>();
      
     const OnClickNext =async()=>{
-      setLoading(true)
-       const result=await axios.post('/api/suggest-doctors', {
+      setLoading(true);
+      try {
+        const result=await axios.post('/api/suggest-doctors', {
             notes: note
         });
-        console.log(result.data);
+        if (!Array.isArray(result.data) || result.data.length === 0) {
+          throw new Error("No doctors were suggested");
+        }
         setSuggestedDoctors(result.data);
-        setLoading(false)        
+      } catch (error) {
+        console.error("Failed to load suggested doctors", error);
+      } finally {
+        setLoading(false);
+      }
     }
 
     const OnStartConsultation=async()=>{
