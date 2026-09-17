@@ -66,16 +66,17 @@ function MedicalVoiceAgent() {
       name: 'AI Medical Doctor Voice Agent',
       firstMessage: 'Hello, I am your AI medical agent. How can I assist you today?',
       transcriber: {
-        provider: 'assembly-ai',
+        provider: 'deepgram',
+        model: 'nova-2',
         language: 'en',
       },
       voice: {
-        provider: 'playht',
-        voiceId: sessionDetails?.selectedDoctor.voiceId || 'will',
+        provider: '11labs',
+        voiceId: 'paula',
       },
       model: {
         provider: 'openai',
-        model: 'gpt-4',
+        model: 'gpt-4o-mini',
         messages: [
           {
             role: 'system',
@@ -92,7 +93,8 @@ function MedicalVoiceAgent() {
     vapi.on('error', (error) => {
       console.error('Vapi call error', error);
       setCallStarted(false);
-      toast.error('The voice call could not stay connected.');
+      const message = error instanceof Error ? error.message : 'Check the Vapi assistant configuration.';
+      toast.error(`Voice call failed: ${message}`);
     });
 
     vapi.on('message', (message) => {
