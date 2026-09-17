@@ -1,18 +1,30 @@
 import { db } from "@/config/db";
-import { SessionChatTable } from "@/config/schema";
+import { SessionChatTable, usersTable } from "@/config/schema";
 import {v4 as uuidv4} from 'uuid';
 import { NextRequest, NextResponse } from "next/server";
-import { currentUser } from "@clerk/nextjs/server";
 import { desc, eq } from "drizzle-orm";
+import { DEMO_USER, getUserEmail, isDemoMode } from "@/lib/demo-auth";
  
   export async function POST(req: NextRequest) {
     const {notes,selectedDoctor}=await req.json();
     try{
       const sessionId=uuidv4()
-      const user=await currentUser()
+      const userEmail = await getUserEmail();
+      if (!userEmail) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
+
+      if (isDemoMode()) {
+        await db.insert(usersTable).values({
+          name: DEMO_USER.name,
+          email: DEMO_USER.email,
+          credits: 10,
+        }).onConflictDoNothing({ target: usersTable.email });
+      }
+
       const result= await db.insert(SessionChatTable).values({
         sessionId:sessionId,
-        createdBy:user?.primaryEmailAddress?.emailAddress,
+        createdBy:userEmail,
         notes:notes,
         selectedDoctor:selectedDoctor,
         createdOn:(new Date()).toISOString(),
@@ -32,8 +44,7 @@ import { desc, eq } from "drizzle-orm";
     const limit = parseInt(searchParams.get("limit") || "10", 10);
     const offset = (page - 1) * limit;
   
-    const user = await currentUser();
-    const userEmail = user?.primaryEmailAddress?.emailAddress;
+    const userEmail = await getUserEmail();
   
     if (sessionId === "all") {
       // Get total count
