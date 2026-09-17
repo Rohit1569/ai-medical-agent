@@ -1,4 +1,4 @@
-import { db } from "@/config/db";
+import { getDb } from "@/config/db";
 import { SessionChatTable, usersTable } from "@/config/schema";
 import {v4 as uuidv4} from 'uuid';
 import { NextRequest, NextResponse } from "next/server";
@@ -8,6 +8,7 @@ import { DEMO_USER, getUserEmail, isDemoMode } from "@/lib/demo-auth";
   export async function POST(req: NextRequest) {
     const {notes,selectedDoctor}=await req.json();
     try{
+      const db = getDb();
       const sessionId=uuidv4()
       const userEmail = await getUserEmail();
       if (!userEmail) {
@@ -38,6 +39,7 @@ import { DEMO_USER, getUserEmail, isDemoMode } from "@/lib/demo-auth";
   }
 
   export async function GET(req: NextRequest) {
+    const db = getDb();
     const { searchParams } = new URL(req.url);
     const sessionId = searchParams.get("sessionId");
     const page = parseInt(searchParams.get("page") || "1", 10);

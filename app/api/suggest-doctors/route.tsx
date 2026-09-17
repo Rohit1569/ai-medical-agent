@@ -1,11 +1,11 @@
-import openai from "@/config/OpenAiModel";
+import { getOpenAI } from "@/config/OpenAiModel";
 import { AIDoctorAgents } from "@/list";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
      try{
         const {notes}=await req.json();
-        const completion = await openai .chat.completions.create({
+        const completion = await getOpenAI().chat.completions.create({
             model: 'mistralai/mistral-small-3.2-24b-instruct-2506:free',
             messages: [
 

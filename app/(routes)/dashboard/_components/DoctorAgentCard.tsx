@@ -1,7 +1,5 @@
 'use client';
 import { Badge } from "@/components/ui/badge";
-import { useAuth } from "@clerk/nextjs";
-import { IconArrowRight } from "@tabler/icons-react";
 import Image from "next/image";
 import React from "react";
 
@@ -19,8 +17,6 @@ type Props = {
     doctorAgent: doctorAgent;
 };
 function DoctorAgentCard( {doctorAgent} :Props) {
-  const {has}=useAuth();
-  const paidUser = has ? has({plan: "pro"}) : false;
   return (
     <div className="relative">
       {doctorAgent.subscriptionRequired &&<Badge className="absolute top-2 right-2 bg-blue-500 text-white">
