@@ -1,5 +1,5 @@
-import { db } from "@/config/db";
-import openai from "@/config/OpenAiModel";
+import { getDb } from "@/config/db";
+import { getOpenAI } from "@/config/OpenAiModel";
 import { SessionChatTable } from "@/config/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
@@ -46,9 +46,10 @@ Return the result in this JSON format:
 export async function POST(req: NextRequest) {
     const {sessionId, sessionDetails, message} = await req.json();
     try{
+      const db = getDb();
      
         const userInput="AI Doctor Agent: "+JSON.stringify(sessionDetails)+'Conversation: '+JSON.stringify(message);
-        const completion = await openai.chat.completions.create({
+        const completion = await getOpenAI().chat.completions.create({
             model: 'mistralai/mistral-small-3.2-24b-instruct-2506:free',
             messages: [
 

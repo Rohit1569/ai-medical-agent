@@ -38,17 +38,19 @@ function MedicalVoiceAgent() {
   const [liveTranscript, setLiveTranscript] = useState<string>('');
 
   useEffect(() => {
-    if (sessionId) fetchSessionDetails();
-  }, [sessionId]);
+    if (!sessionId) return;
 
-  const fetchSessionDetails = async () => {
-    try {
-      const { data } = await axios.get(`/api/session-chat?sessionId=${sessionId}`);
-      setSessionDetails(data[0]);
-    } catch (error) {
-      console.error("Failed to fetch session details", error);
-    }
-  };
+    const fetchSessionDetails = async () => {
+      try {
+        const { data } = await axios.get(`/api/session-chat?sessionId=${sessionId}`);
+        setSessionDetails(data[0]);
+      } catch (error) {
+        console.error("Failed to fetch session details", error);
+      }
+    };
+
+    fetchSessionDetails();
+  }, [sessionId]);
 
   const startCall = () => {
     const apiKey = process.env.NEXT_PUBLIC_VAPI_API_KEY ?? '';
