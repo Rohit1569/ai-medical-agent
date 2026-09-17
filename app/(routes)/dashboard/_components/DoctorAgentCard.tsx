@@ -29,10 +29,10 @@ function DoctorAgentCard( {doctorAgent} :Props) {
      <Image src={doctorAgent.image} alt={doctorAgent.specialist} width={200} height={300} className="w-full h-[250px] object-cover rounded-xl" />
     <h2 className="font-bold ">{doctorAgent.specialist}</h2>
     <h2 className="line-clamp-2 text-sm text-gray-500">{doctorAgent.description}</h2>
-    <button disabled={!paidUser} className="mt-2 px-4 w-full py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition flex items-center justify-between">
-      <span>Start Consultation</span> 
+    {/* <button disabled={!paidUser} className="mt-2 px-4 w-full py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition flex items-center justify-between">
+      <span>Start Consultation</span>
       <IconArrowRight />
-    </button>
+    </button> */}
     </div>
     
   );

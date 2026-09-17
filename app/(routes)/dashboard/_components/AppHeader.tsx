@@ -14,11 +14,11 @@ const menuOptions = [
     name: "History",
     path: "/dashboard/history",
   },
-  {
-    id: 3,
-    name: "Pricing",
-    path: "/dashboard/billing",
-  },
+  // {
+  //   id: 3,
+  //   name: "Pricing",
+  //   path: "/dashboard/billing",
+  // },
 //   {
 //     id: 4,
 //     name: "Profile",
